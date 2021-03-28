@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GoogleDriveSender": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Motohiro\\Desktop\\project.png"
+    }
+  }
+}
