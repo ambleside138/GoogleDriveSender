@@ -13,12 +13,14 @@ namespace GoogleDriveSender
 {
     public partial class Setting : Form
     {
-        public SenderConfiguration Result => new() { DriveDirectoryId = tbDirectoryId.Text, NeedZip = chkNeedZip.Checked };
+        public SenderConfiguration Result => new() { Domain = tbDomain.Text,
+            DriveDirectoryId = tbDirectoryId.Text, NeedZip = chkNeedZip.Checked };
 
         public Setting(SenderConfiguration configuration)
         {
             InitializeComponent();
 
+            tbDomain.Text = configuration.Domain;
             tbDirectoryId.Text = configuration.DriveDirectoryId;
             chkNeedZip.Checked = configuration.NeedZip;
         }

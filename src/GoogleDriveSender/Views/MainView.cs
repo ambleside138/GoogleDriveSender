@@ -37,7 +37,7 @@ namespace GoogleDriveSender
             btnCopy.Click += (_, __) => Clipboard.SetText(tbPath.Text);
             btnClose.Click += (_, __) => Close();
             btnSetting.Click += BtnSetting_Click;
-            btnSend.Click += (_, __) => _Worker.RunWorkerAsync();
+            btnSend.Click += (_, __) => Upload();
         }
 
         private void BtnSetting_Click(object sender, EventArgs e)
@@ -59,19 +59,25 @@ namespace GoogleDriveSender
         private void _Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             btnSend.Enabled = true;
+            progress.Style = ProgressBarStyle.Continuous;
 
             var result = (ProcessResult)e.Result;
             if(result.HasError)
             {
+                _Logger.Info("▲ アップロード完了（エラーあり）" + result.Message);
+                
                 lbStatus.Text = result.Message;
                 lbStatus.ForeColor = ColorTranslator.FromHtml("#DD2C00");
 
-                progress.Style = ProgressBarStyle.Continuous;
                 progress.Value = 0;
                 return;
             }
+            else
+            {
+                _Logger.Info("▲ アップロード完了");
 
-            progress.Style = ProgressBarStyle.Continuous;
+            }
+
             progress.Value = 100;
 
             tbPath.Text = result.SharePath;
@@ -110,7 +116,7 @@ namespace GoogleDriveSender
 
             // 2. 送信＆共有
             _Worker.ReportProgress(0, "GoogleDrive送信中...");
-            var result = new DriveSender(config.DriveDirectoryId).TrySend(zipPath);
+            var result = new DriveSender(config).TrySend(zipPath);
 
             e.Result = result;
         }
@@ -131,11 +137,16 @@ namespace GoogleDriveSender
         }
 
 
-
-
         private void Upload()
         {
+            _Logger.Info("▼ アップロード開始");
+
             btnSend.Enabled = false;
+            progress.Style = ProgressBarStyle.Marquee;
+            lbStatus.ForeColor = ColorTranslator.FromHtml("#212121");
+            tbPath.Text = "";
+            Clipboard.Clear();
+
             _Worker.RunWorkerAsync(tbResourcePath.Text);
         }
 

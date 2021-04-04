@@ -11,5 +11,7 @@ namespace GoogleDriveSender.Entity
         public bool NeedZip { get; set; }
 
         public string DriveDirectoryId { get; set; }
+
+        public string Domain { get; set; }
     }
 }

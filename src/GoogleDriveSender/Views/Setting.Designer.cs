@@ -35,12 +35,14 @@ namespace GoogleDriveSender
             this.label2 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbDomain = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // chkNeedZip
             // 
             this.chkNeedZip.AutoSize = true;
-            this.chkNeedZip.Location = new System.Drawing.Point(12, 95);
+            this.chkNeedZip.Location = new System.Drawing.Point(12, 140);
             this.chkNeedZip.Name = "chkNeedZip";
             this.chkNeedZip.Size = new System.Drawing.Size(127, 19);
             this.chkNeedZip.TabIndex = 0;
@@ -49,7 +51,7 @@ namespace GoogleDriveSender
             // 
             // tbDirectoryId
             // 
-            this.tbDirectoryId.Location = new System.Drawing.Point(12, 38);
+            this.tbDirectoryId.Location = new System.Drawing.Point(12, 84);
             this.tbDirectoryId.Name = "tbDirectoryId";
             this.tbDirectoryId.Size = new System.Drawing.Size(373, 23);
             this.tbDirectoryId.TabIndex = 1;
@@ -57,7 +59,7 @@ namespace GoogleDriveSender
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 18);
+            this.label1.Location = new System.Drawing.Point(12, 64);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(193, 15);
             this.label1.TabIndex = 2;
@@ -66,7 +68,7 @@ namespace GoogleDriveSender
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 78);
+            this.label2.Location = new System.Drawing.Point(12, 123);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 15);
             this.label2.TabIndex = 3;
@@ -75,7 +77,7 @@ namespace GoogleDriveSender
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(313, 112);
+            this.btnCancel.Location = new System.Drawing.Point(313, 157);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(72, 24);
             this.btnCancel.TabIndex = 4;
@@ -85,12 +87,28 @@ namespace GoogleDriveSender
             // btnSave
             // 
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(235, 112);
+            this.btnSave.Location = new System.Drawing.Point(235, 157);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(72, 24);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "保存";
             this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 15);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "ドメイン";
+            // 
+            // tbDomain
+            // 
+            this.tbDomain.Location = new System.Drawing.Point(12, 29);
+            this.tbDomain.Name = "tbDomain";
+            this.tbDomain.Size = new System.Drawing.Size(373, 23);
+            this.tbDomain.TabIndex = 6;
             // 
             // Setting
             // 
@@ -98,7 +116,9 @@ namespace GoogleDriveSender
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(394, 152);
+            this.ClientSize = new System.Drawing.Size(394, 190);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.tbDomain);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.label2);
@@ -124,5 +144,7 @@ namespace GoogleDriveSender
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbDomain;
     }
 }

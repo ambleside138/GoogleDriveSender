@@ -56,7 +56,6 @@ namespace GoogleDriveSender
             this.progress.MarqueeAnimationSpeed = 10;
             this.progress.Name = "progress";
             this.progress.Size = new System.Drawing.Size(404, 23);
-            this.progress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progress.TabIndex = 0;
             // 
             // lbStatus
