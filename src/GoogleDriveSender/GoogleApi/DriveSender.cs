@@ -46,15 +46,6 @@ namespace GoogleDriveSender
                 _Logger.Info("アップロード");
                 var result = Upload(path, service);
 
-                _Logger.Info("権限変更");
-                var request = service.Permissions.Create(new Permission
-                {
-                    Type = "domain",
-                    Role = "reader",
-                    Domain = _Configuration.Domain,
-                }, result.Id);
-                request.Execute();
-
                 return new ProcessResult
                 {
                     HasError = false,
@@ -78,16 +69,27 @@ namespace GoogleDriveSender
 
             // アップロード済みのファイルを更新するにはAPIを切り替える必要がある
 
+            // 新規追加
+            var meta = new File()
+            {
+                Name = System.IO.Path.GetFileName(filePath),
+            };
+
+            using var stream = new System.IO.FileStream(filePath, System.IO.FileMode.Open);
+            
             var file = listRequest.Execute().Files.FirstOrDefault();
             if(file != null)
             {
                 // 更新
-                using var stream = new System.IO.FileStream(filePath, System.IO.FileMode.Open);
-                var request = service.Files.Update(file, file.Id, stream, GetMimeType(filePath));
+                var request = service.Files.Update(meta, file.Id, stream, GetMimeType(filePath));
+
                 request.Fields = "id, name, webViewLink";
                 request.KeepRevisionForever = false;
 
-                request.Upload();
+                _Logger.Info("Request Files.Update");
+                var result = request.Upload();
+                if(result.Status == UploadStatus.Failed)
+                    throw result.Exception;
 
                 request.Body.WebViewLink = file.WebViewLink;
 
@@ -95,20 +97,30 @@ namespace GoogleDriveSender
             }
             else
             {
-                // 新規追加
-                var meta = new File()
-                {
-                    Name = System.IO.Path.GetFileName(filePath),
-                    MimeType = GetMimeType(filePath),
-                    Parents = new List<string> { _Configuration.DriveDirectoryId },
-                };
+                meta.MimeType = GetMimeType(filePath);
+                meta.Parents = new List<string> { _Configuration.DriveDirectoryId };
 
-                using var stream = new System.IO.FileStream(filePath, System.IO.FileMode.Open);
                 var request = service.Files.Create(meta, stream, GetMimeType(filePath));
                 request.Fields = "id, name, webViewLink";
                 request.KeepRevisionForever = false;
 
-                request.Upload();
+                _Logger.Info("Request Files.Create");
+                var result = request.Upload();
+                if (result.Status == UploadStatus.Failed)
+                    throw result.Exception;
+
+                _Logger.Info("権限変更");
+                {
+                    var permissionRequest = service.Permissions.Create(new Permission
+                    {
+                        Type = "domain",
+                        Role = "reader",
+                        Domain = _Configuration.Domain,
+                    }, request.ResponseBody.Id);
+
+                    _Logger.Info("Request Permissions.Create");
+                    permissionRequest.Execute();
+                }
 
                 return request.ResponseBody;
             }
