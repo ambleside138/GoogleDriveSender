@@ -1,7 +1,9 @@
-﻿using GoogleDriveSender.FileIO;
+﻿using GoogleDriveSender.Entity;
+using GoogleDriveSender.FileIO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -18,6 +20,8 @@ namespace GoogleDriveSender
 
         private BackgroundWorker _Worker = new() { WorkerReportsProgress = true };
 
+        private string _ConfigurationFileName = "configuration.json";
+
         public MainView()
         {
             InitializeComponent();
@@ -32,6 +36,19 @@ namespace GoogleDriveSender
 
             btnCopy.Click += (_, __) => Clipboard.SetText(tbPath.Text);
             btnClose.Click += (_, __) => Close();
+            btnSetting.Click += BtnSetting_Click;
+            btnSend.Click += (_, __) => _Worker.RunWorkerAsync();
+        }
+
+        private void BtnSetting_Click(object sender, EventArgs e)
+        {
+            using(var dig = new Setting(GetConfiguration()))
+            {
+                if (dig.ShowDialog(this) == DialogResult.OK)
+                {
+                    JsonFileIO.Serialize(dig.Result, _ConfigurationFileName);
+                }
+            }
         }
 
         private void _Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -41,6 +58,8 @@ namespace GoogleDriveSender
 
         private void _Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            btnSend.Enabled = true;
+
             var result = (ProcessResult)e.Result;
             if(result.HasError)
             {
@@ -63,32 +82,25 @@ namespace GoogleDriveSender
 
         private void _Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Upload(e);
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-
-            _Worker.RunWorkerAsync();
-        }
-
-
-        private void Upload(DoWorkEventArgs e)
-        {
-            var args = Environment.GetCommandLineArgs();
-            if (args.Length < 2)
+            var path = e.Argument?.ToString();
+            if(string.IsNullOrEmpty(path))
             {
-                e.Result = ProcessResult.Error("引数不正");
+                e.Result = ProcessResult.Error($"パスが未指定です [{path}]");
                 return;
             }
 
-            var path = args[1];
             _Logger.Info("path=" + path);
-            if(Directory.Exists(path) == false
+            if (Directory.Exists(path) == false
                 && File.Exists(path) == false)
             {
                 e.Result = ProcessResult.Error($"パスが不正です [{path}]");
+                return;
+            }
+
+            var config = GetConfiguration();
+            if (string.IsNullOrEmpty(config.DriveDirectoryId))
+            {
+                e.Result = ProcessResult.Error("送信先が指定されていません");
                 return;
             }
 
@@ -98,9 +110,39 @@ namespace GoogleDriveSender
 
             // 2. 送信＆共有
             _Worker.ReportProgress(0, "GoogleDrive送信中...");
-            var result = new DriveSender().TrySend(zipPath);
+            var result = new DriveSender(config.DriveDirectoryId).TrySend(zipPath);
 
             e.Result = result;
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length < 2)
+            {
+                return;
+            }
+
+            tbResourcePath.Text = args[1];
+
+            Upload();
+        }
+
+
+
+
+        private void Upload()
+        {
+            btnSend.Enabled = false;
+            _Worker.RunWorkerAsync(tbResourcePath.Text);
+        }
+
+        private SenderConfiguration GetConfiguration()
+        {
+            var config = JsonFileIO.Deserialize<SenderConfiguration>(_ConfigurationFileName);
+            return config ?? new SenderConfiguration();
         }
     }
 }
