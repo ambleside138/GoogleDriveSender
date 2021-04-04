@@ -29,35 +29,71 @@ namespace GoogleDriveSender
         /// </summary>
         private void InitializeComponent()
         {
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.progress = new System.Windows.Forms.ProgressBar();
+            this.lbStatus = new System.Windows.Forms.Label();
+            this.tbPath = new System.Windows.Forms.TextBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // progressBar1
+            // progress
             // 
-            this.progressBar1.Location = new System.Drawing.Point(39, 35);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
-            this.progressBar1.TabIndex = 0;
+            this.progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progress.Location = new System.Drawing.Point(12, 27);
+            this.progress.MarqueeAnimationSpeed = 10;
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(303, 23);
+            this.progress.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progress.TabIndex = 0;
             // 
-            // label1
+            // lbStatus
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
+            this.lbStatus.AutoSize = true;
+            this.lbStatus.Location = new System.Drawing.Point(12, 9);
+            this.lbStatus.Name = "lbStatus";
+            this.lbStatus.Size = new System.Drawing.Size(38, 15);
+            this.lbStatus.TabIndex = 1;
+            this.lbStatus.Text = "label1";
+            // 
+            // tbPath
+            // 
+            this.tbPath.Location = new System.Drawing.Point(12, 64);
+            this.tbPath.Name = "tbPath";
+            this.tbPath.Size = new System.Drawing.Size(274, 23);
+            this.tbPath.TabIndex = 2;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(251, 102);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(64, 24);
+            this.btnClose.TabIndex = 3;
+            this.btnClose.Text = "閉じる";
+            this.btnClose.UseVisualStyleBackColor = true;
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Image = global::GoogleDriveSender.Properties.Resources.content_copy_16;
+            this.btnCopy.Location = new System.Drawing.Point(291, 64);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(24, 24);
+            this.btnCopy.TabIndex = 4;
+            this.btnCopy.UseVisualStyleBackColor = true;
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 116);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.progressBar1);
+            this.ClientSize = new System.Drawing.Size(327, 138);
+            this.Controls.Add(this.btnCopy);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.tbPath);
+            this.Controls.Add(this.lbStatus);
+            this.Controls.Add(this.progress);
             this.Name = "MainView";
-            this.Text = "Form1";
+            this.Text = "GoogleDriveSender";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -65,8 +101,11 @@ namespace GoogleDriveSender
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ProgressBar progress;
+        private System.Windows.Forms.Label lbStatus;
+        private System.Windows.Forms.TextBox tbPath;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnCopy;
     }
 }
 

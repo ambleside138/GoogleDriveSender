@@ -20,12 +20,12 @@ namespace GoogleDriveSender
 
         private static readonly string _ApplicationName = "Sender";
 
-        public async Task<bool> TrySend(string path)
+        public ProcessResult TrySend(string path)
         {
             // アクセストークン取得
-            var credential = await CredentialProvider.GetUserCredentialAsync();
+            var credential = CredentialProvider.GetUserCredential();
             if (credential == null)
-                return false;
+                return ProcessResult.Error("認証トークン取得に失敗");
 
             // Create Drive API service.
             var service = new DriveService(new BaseClientService.Initializer()
@@ -34,45 +34,50 @@ namespace GoogleDriveSender
                 ApplicationName = _ApplicationName,
             });
 
+            var result = Upload(path, service);
+            var id = result.Id;
+            var webViewLink = result.WebViewLink;
 
-
-            var p = Upload(path, service).Result;
-
-
-            var id = p.Id;
+            //var id = p.Id;
 
             service.Permissions.Create(new Permission
             {
-
+                Role = "reader",
+                Type = "domain",
             }, id);
 
-            //// Define parameters of request.
-            //FilesResource.ListRequest listRequest = service.Files.List();
-            //listRequest.PageSize = 10;
-            //listRequest.Fields = "nextPageToken, files(id, name)";
+            return new ProcessResult 
+            { 
+                HasError = false, 
+                SharePath = result.WebViewLink
+            };
 
-            //// List files.
-            //IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-            //    .Files;
-            //Console.WriteLine("Files:");
-            //if (files != null && files.Count > 0)
-            //{
-            //    foreach (var file in files)
-            //    {
-            //        Console.WriteLine("{0} ({1})", file.Name, file.Id);
-            //    }
-            //}
-            //else
-            //{
-            //    Console.WriteLine("No files found.");
-            //}
-            //Console.Read();
-
-
-            return true;
         }
 
-        private async Task<File> Upload(string filePath, DriveService service)
+        //private async Task<File> Upload(string filePath, DriveService service)
+        //{
+        //    var meta = new File()
+        //    {
+        //        Name = System.IO.Path.GetFileName(filePath),
+        //        MimeType = GetMimeType(filePath)
+        //    };
+
+        //    using var stream = new System.IO.FileStream(filePath, System.IO.FileMode.Open);
+        //    // 新規追加
+        //    var request = service.Files.Create(meta, stream, GetMimeType(filePath));
+        //    request.Fields = "id, name";
+
+
+        //    var result = await request.UploadAsync();
+        //    if (result.Status == Google.Apis.Upload.UploadStatus.Failed)
+        //    {
+        //        throw result.Exception;
+        //    }
+
+        //    return request.Body;
+        //}
+
+        private File Upload(string filePath, DriveService service)
         {
             var meta = new File()
             {
@@ -83,14 +88,11 @@ namespace GoogleDriveSender
             using var stream = new System.IO.FileStream(filePath, System.IO.FileMode.Open);
             // 新規追加
             var request = service.Files.Create(meta, stream, GetMimeType(filePath));
-            request.Fields = "id, name";
+            request.Fields = "id, name, webViewLink";
+            request.KeepRevisionForever = false;
 
-
-            var result = await request.UploadAsync();
-            if (result.Status == Google.Apis.Upload.UploadStatus.Failed)
-            {
-                throw result.Exception;
-            }
+            // 
+            request.Upload();
 
             return request.ResponseBody;
         }

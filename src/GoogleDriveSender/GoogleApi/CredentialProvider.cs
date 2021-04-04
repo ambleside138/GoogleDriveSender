@@ -52,5 +52,10 @@ namespace GoogleDriveSender
                     new FileDataStore(tokenPath, true));
             }
         }
+
+        public static UserCredential GetUserCredential()
+        {
+            return GetUserCredentialAsync().Result;
+        }
     }
 }
