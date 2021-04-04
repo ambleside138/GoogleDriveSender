@@ -69,7 +69,6 @@ namespace GoogleDriveSender
 
             // アップロード済みのファイルを更新するにはAPIを切り替える必要がある
 
-            // 新規追加
             var meta = new File()
             {
                 Name = System.IO.Path.GetFileName(filePath),
@@ -97,6 +96,7 @@ namespace GoogleDriveSender
             }
             else
             {
+                // 新規追加
                 meta.MimeType = GetMimeType(filePath);
                 meta.Parents = new List<string> { _Configuration.DriveDirectoryId };
 
