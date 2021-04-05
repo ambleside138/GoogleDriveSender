@@ -34,7 +34,12 @@ namespace GoogleDriveSender
             _Worker.ProgressChanged += _Worker_ProgressChanged;
             _Worker.RunWorkerCompleted += _Worker_RunWorkerCompleted;
 
-            btnCopy.Click += (_, __) => Clipboard.SetText(tbPath.Text);
+            btnCopy.Click += (_, __) =>
+            {
+                if (string.IsNullOrEmpty(tbPath.Text) == false)
+                    Clipboard.SetText(tbPath.Text);
+            };
+
             btnClose.Click += (_, __) => Close();
             btnSetting.Click += BtnSetting_Click;
             btnSend.Click += (_, __) => Upload();
@@ -58,7 +63,7 @@ namespace GoogleDriveSender
 
         private void _Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            btnSend.Enabled = true;
+            pnlArgs.Enabled = true;
             progress.Style = ProgressBarStyle.Continuous;
 
             var result = (ProcessResult)e.Result;
@@ -95,9 +100,10 @@ namespace GoogleDriveSender
                 return;
             }
 
+            var isFile = File.Exists(path);
             _Logger.Info("path=" + path);
             if (Directory.Exists(path) == false
-                && File.Exists(path) == false)
+                && isFile == false)
             {
                 e.Result = ProcessResult.Error($"パスが不正です [{path}]");
                 return;
@@ -112,11 +118,14 @@ namespace GoogleDriveSender
 
             // 1. 圧縮
             _Worker.ReportProgress(0, "ZIP圧縮中...");
-            var zipPath = ZipCompressor.Run(path);
+            if(isFile == false)
+            {
+                path = ZipCompressor.Run(path);
+            }
 
             // 2. 送信＆共有
             _Worker.ReportProgress(0, "GoogleDrive送信中...");
-            var result = new DriveSender(config).TrySend(zipPath);
+            var result = new DriveSender(config).TrySend(path);
 
             e.Result = result;
         }
@@ -124,6 +133,8 @@ namespace GoogleDriveSender
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+
+            lbStatus.Text = "";
 
             var args = Environment.GetCommandLineArgs();
             if (args.Length < 2)
@@ -141,7 +152,7 @@ namespace GoogleDriveSender
         {
             _Logger.Info("▼ アップロード開始");
 
-            btnSend.Enabled = false;
+            pnlArgs.Enabled = false;
             progress.Style = ProgressBarStyle.Marquee;
             lbStatus.ForeColor = ColorTranslator.FromHtml("#212121");
             tbPath.Text = "";

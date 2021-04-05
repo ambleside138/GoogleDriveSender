@@ -2,7 +2,7 @@
   "profiles": {
     "GoogleDriveSender": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Motohiro\\Desktop\\driveTest"
+      "commandLineArgs": "C:\\Users\\Motohiro\\Desktop\\driveTest\\reactive.png"
     }
   }
 }

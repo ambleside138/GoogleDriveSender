@@ -41,10 +41,10 @@ namespace GoogleDriveSender
             this.tbResourcePath = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.pnlBottom = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlArgs = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pnlBottom.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.pnlArgs.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,7 +125,6 @@ namespace GoogleDriveSender
             // 
             this.tbResourcePath.Location = new System.Drawing.Point(12, 27);
             this.tbResourcePath.Name = "tbResourcePath";
-            this.tbResourcePath.ReadOnly = true;
             this.tbResourcePath.Size = new System.Drawing.Size(404, 23);
             this.tbResourcePath.TabIndex = 7;
             // 
@@ -149,16 +148,16 @@ namespace GoogleDriveSender
             this.pnlBottom.Size = new System.Drawing.Size(428, 32);
             this.pnlBottom.TabIndex = 10;
             // 
-            // panel1
+            // pnlArgs
             // 
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.tbResourcePath);
-            this.panel1.Controls.Add(this.btnSend);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(428, 83);
-            this.panel1.TabIndex = 11;
+            this.pnlArgs.Controls.Add(this.label2);
+            this.pnlArgs.Controls.Add(this.tbResourcePath);
+            this.pnlArgs.Controls.Add(this.btnSend);
+            this.pnlArgs.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlArgs.Location = new System.Drawing.Point(0, 0);
+            this.pnlArgs.Name = "pnlArgs";
+            this.pnlArgs.Size = new System.Drawing.Size(428, 83);
+            this.pnlArgs.TabIndex = 11;
             // 
             // panel2
             // 
@@ -179,14 +178,15 @@ namespace GoogleDriveSender
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(428, 223);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlArgs);
             this.Controls.Add(this.pnlBottom);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GoogleDriveSender";
             this.pnlBottom.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnlArgs.ResumeLayout(false);
+            this.pnlArgs.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -206,7 +206,7 @@ namespace GoogleDriveSender
         private System.Windows.Forms.TextBox tbResourcePath;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.Panel pnlBottom;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlArgs;
         private System.Windows.Forms.Panel panel2;
     }
 }

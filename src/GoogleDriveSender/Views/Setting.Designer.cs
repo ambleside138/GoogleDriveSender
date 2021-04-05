@@ -29,25 +29,13 @@ namespace GoogleDriveSender
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkNeedZip = new System.Windows.Forms.CheckBox();
             this.tbDirectoryId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.tbDomain = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // chkNeedZip
-            // 
-            this.chkNeedZip.AutoSize = true;
-            this.chkNeedZip.Location = new System.Drawing.Point(12, 140);
-            this.chkNeedZip.Name = "chkNeedZip";
-            this.chkNeedZip.Size = new System.Drawing.Size(127, 19);
-            this.chkNeedZip.TabIndex = 0;
-            this.chkNeedZip.Text = "ZIP圧縮して送信する";
-            this.chkNeedZip.UseVisualStyleBackColor = true;
             // 
             // tbDirectoryId
             // 
@@ -64,15 +52,6 @@ namespace GoogleDriveSender
             this.label1.Size = new System.Drawing.Size(193, 15);
             this.label1.TabIndex = 2;
             this.label1.Text = "送信先（GoogleDriveディレクトリID）";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 123);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "圧縮";
             // 
             // btnCancel
             // 
@@ -121,10 +100,8 @@ namespace GoogleDriveSender
             this.Controls.Add(this.tbDomain);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbDirectoryId);
-            this.Controls.Add(this.chkNeedZip);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Setting";
@@ -137,11 +114,8 @@ namespace GoogleDriveSender
         }
 
         #endregion
-
-        private System.Windows.Forms.CheckBox chkNeedZip;
         private System.Windows.Forms.TextBox tbDirectoryId;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label label3;
