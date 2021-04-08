@@ -45,7 +45,7 @@ namespace GoogleDriveSender
             {
                 Encoding = System.Text.Encoding.UTF8,
                 Layout = "${longdate} [${threadid:padding=2}] [${uppercase:${level:padding=-5}}] ${callsite}() - ${message}${exception:format=ToString}",
-                FileName = "${basedir}/logs/TimeRecorder_${date:format=yyyyMMdd}.log",
+                FileName = "${basedir}/logs/GoogleDriveSender_${date:format=yyyyMMdd}.log",
                 ArchiveNumbering = ArchiveNumberingMode.Date,
                 ArchiveFileName = "${basedir}/logs/GoogleDriveSender.log.{#}",
                 ArchiveEvery = FileArchivePeriod.None,
