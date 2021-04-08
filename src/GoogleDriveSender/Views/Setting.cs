@@ -14,7 +14,7 @@ namespace GoogleDriveSender
     public partial class Setting : Form
     {
         public SenderConfiguration Result => new() { Domain = tbDomain.Text,
-            DriveDirectoryId = tbDirectoryId.Text, NeedZip = chkNeedZip.Checked };
+            DriveDirectoryId = tbDirectoryId.Text };
 
         public Setting(SenderConfiguration configuration)
         {
@@ -22,7 +22,7 @@ namespace GoogleDriveSender
 
             tbDomain.Text = configuration.Domain;
             tbDirectoryId.Text = configuration.DriveDirectoryId;
-            chkNeedZip.Checked = configuration.NeedZip;
+            
         }
     }
 }
