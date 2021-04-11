@@ -111,12 +111,25 @@ namespace GoogleDriveSender
 
                 _Logger.Info("権限変更");
                 {
-                    var permissionRequest = service.Permissions.Create(new Permission
+                    PermissionsResource.CreateRequest permissionRequest;
+                    
+                    if(string.IsNullOrEmpty(_Configuration.Domain))
                     {
-                        Type = "domain",
-                        Role = "reader",
-                        Domain = _Configuration.Domain,
-                    }, request.ResponseBody.Id);
+                        permissionRequest = service.Permissions.Create(new Permission
+                        {
+                            Type = "anyone",
+                            Role = "reader",
+                        }, request.ResponseBody.Id);
+                    }
+                    else
+                    {
+                        permissionRequest = service.Permissions.Create(new Permission
+                        {
+                            Type = "domain",
+                            Role = "reader",
+                            Domain = _Configuration.Domain,
+                        }, request.ResponseBody.Id);
+                    }
 
                     _Logger.Info("Request Permissions.Create");
                     permissionRequest.Execute();
