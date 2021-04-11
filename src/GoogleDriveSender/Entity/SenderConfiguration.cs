@@ -8,8 +8,6 @@ namespace GoogleDriveSender.Entity
 {
     public class SenderConfiguration
     {
-        public bool NeedZip { get; set; }
-
         public string DriveDirectoryId { get; set; }
 
         public string Domain { get; set; }
